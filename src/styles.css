@@ -1,1 +1,38 @@
-/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+
+    
+*{
+
+    box-sizing: border-box;
+}
+body{
+    font-family: ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+}
+a{
+    text-decoration: none;
+}
+ul{
+    list-style: none;
+}
+
+.container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+@media (min-width: 768px) {
+    .container {
+        width: 750px;
+    }
+}
+@media (min-width: 992px) {
+    .container {
+        width: 970px;
+    }
+}
+@media (min-width: 1200px) {
+    .container {
+        width: 1170px;
+    }
+}
