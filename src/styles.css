@@ -4,6 +4,8 @@
 *{
 
     box-sizing: border-box;
+        transition: all 0.3s ease;
+
 }
 body{
     font-family: ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
@@ -31,6 +33,15 @@ input{
     margin: 0 auto;
     padding: 0 15px;
 }
+
+.active{
+    width: 100%;
+  }
+
+.collapse{
+   display: none;
+ 
+  }
 
 @media (min-width: 768px) {
     .container {

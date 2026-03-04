@@ -1,9 +1,9 @@
 <div class="flex w-full h-screen bg-gray-100">   
-<app-sidebar></app-sidebar>
+<app-sidebar [collapsed]="siderbarCollapsed()" ></app-sidebar>
 
 
-<main class="flex-1 flex flex-col">
-<app-header></app-header>
-<app-dashboard></app-dashboard>
+<main class="flex-7 flex flex-col">
+<app-header (output)="collapseSidebar($event)"></app-header>
+<app-dashboard ></app-dashboard>
 </main>
 </div>
