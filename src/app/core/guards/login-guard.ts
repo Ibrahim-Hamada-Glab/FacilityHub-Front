@@ -3,13 +3,13 @@ import { AuthService } from '../services/auth.service';
 import { inject } from '@angular/core';
 import { map } from 'rxjs';
 
-export const authGuard: CanActivateFn = () => {
-  const authService = inject(AuthService);
+export const loginGuard: CanActivateFn = () => {
   const router = inject(Router);
+  const authService = inject(AuthService);
 
   return authService.checkAuth().pipe(
     map((isAuthenticated) =>
-      isAuthenticated ? true : router.createUrlTree(['/login'])
+      isAuthenticated ? router.createUrlTree(['/home']) : true
     )
   );
 };
