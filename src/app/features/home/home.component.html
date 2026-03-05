@@ -1,0 +1,8 @@
+<div class="flex w-full h-screen bg-gray-100">
+<app-sidebar [collapsed]="sidebarCollapsed()"></app-sidebar>
+
+<main class="flex-7 flex flex-col">
+<app-header (output)="collapseSidebar($event)"></app-header>
+<app-dashboard></app-dashboard>
+</main>
+</div>
