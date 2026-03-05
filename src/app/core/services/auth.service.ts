@@ -1,38 +1,32 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { signal, computed, Injectable } from '@angular/core';
 import { catchError, map, Observable, of, tap } from 'rxjs';
-import { BackEndResponse, LoginRequest, LoginResponse, User } from '@features/auth/models/login-request.model';
-import { environment } from '@core/config/environment';
 import { TokenService } from './token.service';
+import { BackEndResponse, LoginRequest, LoginResponse, User } from '@app/features/auth/models/login-request.model';
+import { environment } from '../config/environment';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
-  private currentUser: User | null = null;
-  private isAuthenticated = false;
+  // 1. Define your private Signal (the "Source of Truth")
+  private userSignal = signal<User | null>(null);
 
-  constructor(
-    private httpClient: HttpClient,
-    private tokenService: TokenService
-  ) {}
+  // 2. Expose read-only versions for your components
+  public readonly currentUser = this.userSignal.asReadonly();
+  
+  // 3. Create a derived Signal (automatically updates when userSignal changes)
+  public readonly isAuthenticated = computed(() => !!this.userSignal());
 
-  /**
-   * Checks authentication status. Call this from guards - it waits for the async /auth/me request.
-   * Returns cached result if already fetched, otherwise validates token via API.
-   */
+  constructor(private httpClient: HttpClient, private tokenService: TokenService) {}
+
   checkAuth(): Observable<boolean> {
-    if (!this.tokenService.getToken()) {
-      return of(false);
-    }
-    if (this.currentUser) {
-      return of(true);
-    }
-    return this.httpClient.get<BackEndResponse<User>>(environment.apiUrl + '/auth/me').pipe(
-      tap((response: BackEndResponse<User>) => {
-        this.currentUser = response.data;
-        this.isAuthenticated = true;
-      }),
+    const token = this.tokenService.getToken();
+    if (!token) return of(false);
+
+    // If signal already has data, we are good!
+    if (this.userSignal()) return of(true);
+
+    return this.httpClient.get<BackEndResponse<User>>(`${environment.apiUrl}/auth/me`).pipe(
+      tap(response => this.userSignal.set(response.data)), // Update the signal
       map(() => true),
       catchError(() => {
         this.logout();
@@ -41,35 +35,19 @@ export class AuthService {
     );
   }
 
-   public get CurrentUser() : User | null  {
-    return  this.currentUser  ;
-  }
-   
-  public get IsAuthenticated() : boolean  {
-    return this.isAuthenticated;
-  }
-
   login(params: LoginRequest): Observable<BackEndResponse<LoginResponse>> {
-    return this.httpClient
-      .post<BackEndResponse<LoginResponse>>(environment.apiUrl + '/auth/login', params, {
-        mode: 'cors',
+    return this.httpClient.post<BackEndResponse<LoginResponse>>(`${environment.apiUrl}/auth/login`, params).pipe(
+      tap(response => {
+        if (response?.data?.accessToken) {
+          this.tokenService.setToken(response.data.accessToken);
+          this.userSignal.set(response.data.user); // Update signal
+        }
       })
-      .pipe(
-        tap((response: BackEndResponse<LoginResponse>) => {
-          if (response?.data?.accessToken) {
-            this.tokenService.setToken(response.data.accessToken);
-            this.currentUser = response.data.user;
-            this.isAuthenticated = true;
-          }
-        })
-      );
+    );
   }
 
   logout(): void {
     this.tokenService.removeToken();
-    this.currentUser = null;
-    this.isAuthenticated = false;
+    this.userSignal.set(null); // Clear signal
   }
-  
 }
-
