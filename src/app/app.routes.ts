@@ -18,9 +18,44 @@ export const routes: Routes = [
   {
     path: 'login',
     loadComponent: () =>
-      import('./features/auth/login/login.component').then(
-        (m) => m.LoginComponent
+      import('./features/auth/login/login.component').then((m) => m.LoginComponent),
+    canActivate: [loginGuard],
+  },
+  {
+    path: 'register',
+    loadComponent: () =>
+      import('./features/auth/register/register.component').then((m) => m.RegisterComponent),
+    canActivate: [loginGuard],
+  },
+  {
+    path: 'forgot-password',
+    loadComponent: () =>
+      import('./features/auth/forgot-password/forgot-password.component').then(
+        (m) => m.ForgotPasswordComponent
       ),
-      canActivate: [loginGuard],
+    canActivate: [loginGuard],
+  },
+  {
+    path: 'reset-password',
+    loadComponent: () =>
+      import('./features/auth/reset-password/reset-password.component').then(
+        (m) => m.ResetPasswordComponent
+      ),
+    canActivate: [loginGuard],
+  },
+  {
+    path: 'verify-email',
+    loadComponent: () =>
+      import('./features/auth/verify-email/verify-email.component').then(
+        (m) => m.VerifyEmailComponent
+      ),
+  },
+  {
+    path: 'change-password',
+    loadComponent: () =>
+      import('./features/auth/change-password/change-password.component').then(
+        (m) => m.ChangePasswordComponent
+      ),
+    canActivate: [authGuard],
   },
 ];

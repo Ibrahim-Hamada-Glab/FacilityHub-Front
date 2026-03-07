@@ -4,6 +4,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
+    "moduleResolution": "bundler",
     "paths": {
       "@app/*": ["src/app/*"],
       "@core/*": ["src/app/core/*"],

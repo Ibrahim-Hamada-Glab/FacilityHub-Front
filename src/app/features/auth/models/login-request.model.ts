@@ -16,18 +16,11 @@ export interface LoginRequest {
 export interface LoginResponse {
   accessToken: string;
   expiresAt: Date;
+  refreshTokenExpiresAt: Date;
   user: User;
 }
 
-export interface BackEndResponse<T> {
-  isSuccess: boolean;
-  data: T;
-  message: string;
-    AvatarUrl: string;
-    Roles: string[];
-    Permissions: string[];
-  };
-
+ 
 
 export interface BackEndResponse<T> {
   isSuccess: boolean;
@@ -36,4 +29,34 @@ export interface BackEndResponse<T> {
   errorCode: string;
   errors: string[];
   httpStatusCode: number;
+}
+
+export interface RegisterRequest {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
+export interface ForgotPasswordRequest {
+  email: string;
+}
+
+export interface ResetPasswordRequest {
+  email: string;
+  token: string;
+  newPassword: string;
+  confirmNewPassword: string;
+}
+
+export interface VerifyEmailRequest {
+  userId: string;
+  token: string;
+}
+
+export interface ChangePasswordRequest {
+  currentPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
 }
