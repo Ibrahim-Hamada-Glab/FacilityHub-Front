@@ -38,7 +38,7 @@ export class LoginComponent {
       next: (response) => {
         this.loading.set(false);
         if (response.isSuccess) {
-          this.router.navigate(['/home']);
+          this.router.navigate(['/']);
         } else {
           this.errorMessage.set(response.message || 'Login failed. Please check your credentials.');
         }

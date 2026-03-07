@@ -1,6 +1,9 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth-guard';
 import { loginGuard } from './core/guards/login-guard';
+import { Facilities } from './features/facilities/facilities';  
+import { DashboardComponent } from './features/dashboard/dashboard.component';
+
 
 export const routes: Routes = [
   {
@@ -8,13 +11,21 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/home/home.component').then((m) => m.HomeComponent),
     canActivate: [authGuard],
-  },
-  {
-    path: 'home',
-    loadComponent: () =>
-      import('./features/home/home.component').then((m) => m.HomeComponent),
-    canActivate: [authGuard],
-  },
+    children: [
+      {
+        path: 'dashboard',
+        loadComponent: () =>
+          DashboardComponent,
+        canActivate: [authGuard],
+      },
+      {
+        path: 'facilities',
+        loadComponent: () =>
+          Facilities,
+        canActivate: [authGuard], 
+      },
+    ],
+  } ,
   {
     path: 'login',
     loadComponent: () =>
@@ -57,5 +68,5 @@ export const routes: Routes = [
         (m) => m.ChangePasswordComponent
       ),
     canActivate: [authGuard],
-  },
+  } 
 ];
