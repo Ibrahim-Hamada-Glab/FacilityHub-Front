@@ -7,6 +7,24 @@
         transition: all 0.3s ease;
 
 }
+.global-spinner-overlay {
+    position: fixed;
+    inset: 0;                          /* top/right/bottom/left: 0 */
+    background: rgba(255, 255, 255, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    backdrop-filter: blur(2px);
+  }
+  .global-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    height: 3px !important;
+  }
 body{
     font-family: ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
 }

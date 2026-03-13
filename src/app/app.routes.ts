@@ -3,6 +3,7 @@ import { authGuard } from './core/guards/auth-guard';
 import { loginGuard } from './core/guards/login-guard';
 import { Facilities } from './features/facilities/facilities';  
 import { DashboardComponent } from './features/dashboard/dashboard.component';
+import { facilitiesResolver } from './core/resolvers/facilities-resolver';
 
 
 export const routes: Routes = [
@@ -22,7 +23,14 @@ export const routes: Routes = [
         path: 'facilities',
         loadComponent: () =>
           Facilities,
-        canActivate: [authGuard], 
+        canActivate: [authGuard],
+        
+      },
+      {
+        path: 'facilities/add',
+        loadComponent: () =>
+          import('./features/facilities/add-facility/add-facility').then((m) => m.AddFacility),
+        canActivate: [authGuard],
       },
     ],
   } ,

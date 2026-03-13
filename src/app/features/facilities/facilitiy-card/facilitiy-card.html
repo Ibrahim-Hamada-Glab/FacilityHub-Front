@@ -6,12 +6,11 @@
   >
     <span
       class="absolute top-2 right-2 bg-white/20 text-white border-white/30 backdrop-blur-sm text-sm px-1.5 py-0.5 rounded-xl"
-      >Active</span
+      >{{  facilityService.FacilityStatus[facility.status] }}</span
     >
-    <h5 class="text-white font-semibold text-lg leading-tight">Facility Name</h5>
+    <h5 class="text-white font-semibold text-lg leading-tight">{{facility.name}}</h5>
     <p class="text-indigo-100 text-xs mt-1">
-      Here at Flowbite we focus on markets where technology, innovation, and capital can unlock
-      long-term value and drive economic growth.
+      {{ facility.code }}, {{ facilityService.FacilityTypes[facility.type] }}
     </p>
   </div>
   <div class="bg-white p-4 flex flex-row justify-start gap-4">
@@ -31,17 +30,17 @@
         <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
         <circle cx="12" cy="10" r="3"></circle>
       </svg>
-      <span class="text-gray-700 text-sm">123 Main St, Anytown, USA</span>
+      <span class="text-gray-700 text-sm">{{facility.address}}, {{facility.city}}</span>
     </div>
     <div class="flex items-center gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-      <span class="text-gray-700 text-sm">Ahmed Hamdan</span>
+      <span class="text-gray-700 text-sm">{{facility.managerName ?? "N/A"}}</span>
     </div>
   </div>
 
   <footer class="py-4 px-9 flex justify-between font-semibold">
-    <div class="flex items-center gap-2 flex-col"><span>4</span> <span class="text-gray-400 text-sm">Floors</span></div>
-    <div class="flex items-center gap-2 flex-col"><span>4</span> <span class="text-gray-400 text-sm">Equipment</span></div>
-    <div class="flex items-center gap-2 flex-col "><span class=" text-amber-500">4</span> <span class="text-gray-400 text-sm">Open WO</span></div>
+    <div class="flex items-center gap-2 flex-col"><span>{{facility.totalFloors ?? 0}}</span> <span class="text-gray-400 text-sm">Floors</span></div>
+    <div class="flex items-center gap-2 flex-col"><span>{{facility.equimentsCount ?? 0}}</span> <span class="text-gray-400 text-sm">Equipment</span></div>
+    <div class="flex items-center gap-2 flex-col "><span class=" text-amber-500">{{facility.workOrdersCount ?? 0}}</span> <span class="text-gray-400 text-sm">Open WO</span></div>
   </footer>
 </div>
